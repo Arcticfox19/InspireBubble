@@ -1,0 +1,215 @@
+@import '../../styles/variables.css';
+
+.wysiwyg-preview-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  min-height: 100vh;
+}
+
+.wysiwyg-preview-card {
+  width: 375px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 10px 40px -10px rgba(14, 165, 233, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* 颗粒感纹理遮罩层 */
+.wysiwyg-preview-card::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: var(--noise-bg);
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.6;
+  mix-blend-mode: multiply;
+}
+
+/* 标题样式 */
+.wysiwyg-title-wrapper {
+  position: relative;
+  z-index: 3;
+  margin-bottom: 24px;
+}
+
+.wysiwyg-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  cursor: text;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.wysiwyg-title:hover {
+  background-color: rgba(14, 165, 233, 0.05);
+}
+
+.wysiwyg-title-input {
+  width: 100%;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  background: transparent;
+  border: 2px solid rgba(14, 165, 233, 0.3);
+  border-radius: 8px;
+  padding: 8px;
+  outline: none;
+  font-family: 'PingFang SC', 'Inter', sans-serif;
+}
+
+/* 消息列表 */
+.wysiwyg-message-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+  z-index: 3;
+}
+
+/* 消息基础样式 */
+.wysiwyg-message {
+  display: flex;
+  gap: 12px;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.wysiwyg-message-user {
+  flex-direction: row-reverse;
+}
+
+/* 头像样式 */
+.wysiwyg-avatar {
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 13px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.wysiwyg-message-user .wysiwyg-avatar {
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #fff;
+  border: none;
+}
+
+.wysiwyg-message-assistant .wysiwyg-avatar {
+  background: #ffffff;
+  color: #0ea5e9;
+  border: 1px solid #e2e8f0;
+}
+
+/* 气泡样式 */
+.wysiwyg-bubble {
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  position: relative;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-width: calc(100% - 60px);
+  transition: box-shadow 0.2s;
+}
+
+.wysiwyg-bubble:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.wysiwyg-message-user .wysiwyg-bubble {
+  border-top-right-radius: 4px;
+  box-shadow: 0 4px 15px -3px rgba(14, 165, 233, 0.3);
+}
+
+.wysiwyg-message-assistant .wysiwyg-bubble {
+  border: 1px solid var(--ai-border);
+  border-top-left-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 编辑状态文本框 */
+.wysiwyg-bubble-edit {
+  padding: 14px 18px;
+  border-radius: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  border: 2px solid rgba(14, 165, 233, 0.5);
+  outline: none;
+  resize: none;
+  font-family: 'PingFang SC', 'Inter', sans-serif;
+  max-width: calc(100% - 60px);
+  min-height: 60px;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+}
+
+.wysiwyg-message-user .wysiwyg-bubble-edit {
+  border-top-right-radius: 4px;
+}
+
+.wysiwyg-message-assistant .wysiwyg-bubble-edit {
+  border-top-left-radius: 4px;
+}
+
+/* 底部装饰 */
+.wysiwyg-footer-hint {
+  margin-top: 35px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  opacity: 0.6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: relative;
+  z-index: 3;
+}
+
+.wysiwyg-footer-hint::before,
+.wysiwyg-footer-hint::after {
+  content: "";
+  width: 20px;
+  height: 1px;
+  background: #cbd5e1;
+}
+
+/* 分页辅助线 */
+.wysiwyg-page-break-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: repeating-linear-gradient(
+    to right,
+    #0ea5e9 0px,
+    #0ea5e9 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.6;
+}

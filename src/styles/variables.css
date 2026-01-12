@@ -1,0 +1,23 @@
+:root {
+  /* 核心色板：清透蓝天 */
+  --bg-gradient-start: #e0f2fe; /* 浅天蓝 */
+  --bg-gradient-end: #f0f9ff; /* 极浅蓝白 */
+
+  /* 卡片背景：高透磨砂白 */
+  --card-bg: rgba(255, 255, 255, 0.65);
+
+  /* 文字颜色：深灰，保证阅读舒适度 */
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+
+  /* AI 侧颜色 (白色玻璃) */
+  --ai-bubble-bg: rgba(255, 255, 255, 0.85);
+  --ai-border: rgba(255, 255, 255, 0.9);
+
+  /* 用户侧颜色 (渐变海洋蓝) */
+  --user-bubble-bg: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  --user-text: #ffffff;
+
+  /* 颗粒感纹理 (黑色噪点，用于浅色背景) */
+  --noise-bg: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}

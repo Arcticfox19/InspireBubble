@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        :root {
+            /* 核心色板：清透蓝天 */
+            --bg-gradient-start: #e0f2fe;
+            /* 浅天蓝 */
+            --bg-gradient-end: #f0f9ff;
+            /* 极浅蓝白 */
+
+            /* 卡片背景：高透磨砂白 */
+            --card-bg: rgba(255, 255, 255, 0.65);
+
+            /* 文字颜色：深灰，保证阅读舒适度 */
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+
+            /* AI 侧颜色 (白色玻璃) */
+            --ai-bubble-bg: rgba(255, 255, 255, 0.85);
+            --ai-border: rgba(255, 255, 255, 0.9);
+
+            /* 用户侧颜色 (渐变海洋蓝) */
+            --user-bubble-bg: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            --user-text: #ffffff;
+
+            /* 颗粒感纹理 (黑色噪点，用于浅色背景) */
+            --noise-bg: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+        }
+
+        body {
+            /* 全局背景：柔和的蓝天渐变 */
+            background-image: linear-gradient(180deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            font-family: 'PingFang SC', 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+
+        /* 模拟手机/卡片容器 */
+        .chat-container {
+            width: 375px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            /* 轻柔的投影，增加悬浮感 */
+            box-shadow:
+                0 10px 40px -10px rgba(14, 165, 233, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* 核心：全局颗粒感遮罩层 (混合模式改为 multiply 适配浅色) */
+        .chat-container::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: var(--noise-bg);
+            pointer-events: none;
+            z-index: 2;
+            opacity: 0.6;
+            mix-blend-mode: multiply;
+            /* 让噪点融入浅色背景 */
+        }
+
+        /* 消息列表 */
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            /* 增加间距，让排版更透气 */
+            position: relative;
+            z-index: 3;
+        }
+
+        /* 消息气泡基础 */
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 100%;
+        }
+
+        .message.ai {
+            align-items: flex-start;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        /* 头像样式 */
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 13px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .ai .avatar {
+            background: #ffffff;
+            color: #0ea5e9;
+            border: 1px solid #e2e8f0;
+        }
+
+        .user .avatar {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #fff;
+            border: none;
+        }
+
+        /* 气泡内容样式 */
+        .bubble {
+            padding: 14px 18px;
+            border-radius: 18px;
+            font-size: 15px;
+            line-height: 1.6;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+
+        /* AI 气泡：左侧，白纸质感 */
+        .ai .bubble {
+            background: var(--ai-bubble-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--ai-border);
+            border-top-left-radius: 4px;
+        }
+
+        /* 用户气泡：右侧，海洋渐变 */
+        .user .bubble {
+            background: var(--user-bubble-bg);
+            color: var(--user-text);
+            border-top-right-radius: 4px;
+            box-shadow: 0 4px 15px -3px rgba(14, 165, 233, 0.3);
+            /* 蓝色辉光 */
+        }
+
+        /* 重点高亮样式 */
+        strong {
+            color: #0284c7;
+            /* 深蓝色高亮 */
+            font-weight: 700;
+            background: rgba(14, 165, 233, 0.1);
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+
+        .user strong {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 底部装饰 */
+        .footer-hint {
+            margin-top: 35px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer-hint::before,
+        .footer-hint::after {
+            content: "";
+            width: 20px;
+            height: 1px;
+            background: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="chat-container">
+        <div class="message-list">
+
+            <!-- AI 消息 -->
+            <div class="message ai">
+                <div class="avatar">AI</div>
+                <div class="bubble">
+                    你好！根据你的偏好，我已切换到 <strong>“氧气蓝”</strong> 模式。这种配色在心理学上能带来更强的<strong>信任感</strong>和<strong>清晰度</strong>。
+                </div>
+            </div>
+
+            <!-- 用户消息 -->
+            <div class="message user">
+                <div class="avatar">ME</div>
+                <div class="bubble">
+                    这个感觉好多了！看起来很清爽，像夏天的汽水🧊。
+                </div>
+            </div>
+
+            <!-- AI 长消息 -->
+            <div class="message ai">
+                <div class="avatar">AI</div>
+                <div class="bubble">
+                    很高兴你喜欢！根据<strong>俞军的用户价值公式</strong>，我们刚刚完成了一次产品迭代：<br><br>
+                    1. <strong>新体验</strong>：视觉更通透，阅读压力更小；<br>
+                    2. <strong>旧体验</strong>：深色模式的压抑感被消除；<br>
+                    3. <strong>替换成本</strong>：零成本，我为你一键切换了样式。
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-hint">AI NOTE GENERATOR</div>
+    </div>
+
+</body>
+
+</html>
