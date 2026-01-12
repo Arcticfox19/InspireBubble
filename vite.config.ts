@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: '/InspireBubble/', // GitHub Pages 基础路径
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
