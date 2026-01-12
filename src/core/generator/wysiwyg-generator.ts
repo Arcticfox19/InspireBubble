@@ -64,8 +64,8 @@ export const calculatePageBreaks = (container: HTMLElement, ratio: ExportRatio):
       const breakPoint = breakpoints[i - 1].y;
       pageBreaks.push(breakPoint);
       lastBreakY = breakPoint;
+      }
     }
-  }
   return pageBreaks;
 };
 
@@ -85,7 +85,7 @@ const injectStylesInClone = (clonedDoc: Document, originalContainer: HTMLElement
     overflow: 'hidden', // 改为 hidden，但确保容器宽度足够
     position: 'relative'
   });
-  
+
   // 确保消息列表容器样式正确
   const messageList = clonedDoc.querySelector('.wysiwyg-message-list') as HTMLElement;
   if (messageList) {
